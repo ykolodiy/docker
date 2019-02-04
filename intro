@@ -1,0 +1,81 @@
+https://www.youtube.com/watch?v=HY3WDz6j_hU&index=7&list=PL6tu16kXT9PqdhOZk4MNVtQDJp6xFrotg
+
+docker
+
+1 install docker
+2 show RUNNING containers: docker ps -a
+2 show NOT RUNNING images: docker images
+run:   docker run ubuntu
+
+docker stop ID
+docker rm ID
+docker rmi ubuntu  - remove image
+
+
+run image as root user: docker run -it ubuntu bash
+
+kitematic.exe its ui of shell
+
+
+link containers
+docker run -name <LocalCont> --link <LocalCont>:ActualcontainerName
+
+example wordpress > mysql
+----------------------------------------------------------------------
+// install WP
+
+//get mysql
+https://hub.docker.com/explore
+select what you want and copy command to run in shell 
+$ docker pull mysql
+
+Starting a MySQL instance is simple:
+$ docker run --name easql -e MYSQL_ROOT_PASSWORD=Comrade20 -d mysql:latest
+
+//get wordpress  https://hub.docker.com/search?q=wordpress&type=image
+docker pull wordpress
+
+// run and link it to mysql
+docker run --name some-wordpress --link some-mysql:mysql -d wordpress
+or with port
+docker run --name some-wordpress --link some-mysql:mysql -p 8080:80 -d wordpress
+
+docker run --name ealocal --link easql:mysql -p 8080:80 -d wordpress
+
+____________________________________________________________
+Compose
+
+docker-compose --help
+
+
+need to create .yml file
+
+
+to see: docker-compose ps
+
+1 create docker-compose.yml
+version: '2'
+
+services:
+
+  wordpress:
+    image: wordpress
+    ports:
+      - 8080:80
+    environment:
+        WORDPRESS_DB_PASSWORD: abc123
+
+  mysql:
+    image: mysql:latest
+    environment:
+        MYSQL_ROOT_PASSWORD: abc123
+
+
+start it
+docker-compose up
+
+kill all
+
+docker-compose down
+
+
